@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +48,25 @@ namespace CubeBasics
 
             public void Create()
             {
+                var startNewPathSticker = Sticker.URB;
+                var okStickers = new List<Sticker>();
 
+                var pos = Sticker.URB;
+                var next = this.Cube[pos];
+                if (next.Type == startNewPathSticker)
+                {
+                    // Find new path start
+                    StickerExtensionMethods.AllCornerStickers.Whe
+                }
+                AddCornerMoves(next);
+                okStickers.Add(next.Type);
+                pos = next;
+
+
+            }
+
+            private void AddCornerMoves(Cubie cubie)
+            {
             }
         }
     }

@@ -58,17 +58,17 @@ namespace CubeBasics
 
         public bool IsSolved()
         {
-            return this.Cubies.Values.All(cubie => cubie.Orientation == 0);
+            return this.Cubies.Values.All(cubie => cubie.IsCorrect);
         }
 
         public bool AreCornersSolved()
         {
-            return this.Cubies.Values.Where(cubie => cubie.IsCorner).All(cubie => cubie.Orientation == 0);
+            return this.Cubies.Values.Where(cubie => cubie.IsCorner).All(cubie => cubie.IsCorrect);
         }
 
         public bool AreEdgesSolved()
         {
-            return this.Cubies.Values.Where(cubie => cubie.IsEdge).All(cubie => cubie.Orientation == 0);
+            return this.Cubies.Values.Where(cubie => cubie.IsEdge).All(cubie => cubie.IsCorrect);
         }
 
         public void Apply(IContainsMoves plan)
