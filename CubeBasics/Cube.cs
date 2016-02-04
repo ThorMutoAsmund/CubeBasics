@@ -73,7 +73,7 @@ namespace CubeBasics
 
         public void Apply(IContainsMoves plan)
         {
-            foreach (var move in plan.GetMoves())
+            foreach (var move in plan.GetTurns())
             {
                 ApplyTurn(move);
             }

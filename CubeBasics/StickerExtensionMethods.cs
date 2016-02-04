@@ -28,7 +28,7 @@ namespace CubeBasics
             }
         }
 
-        public Sticker[] AllCornerStickers()
+        public static Sticker[] AllCornerStickers()
         {
             return CornerStickers;
         }

@@ -10,7 +10,10 @@ namespace CubeBasics
         ULF, UFR, UBL, URB, DFL, DRF, DLB, DBR,
         UF, UL, UR, UB, LF, LB, RF, RB, DF, DL, DR, DB
     }
-    public enum OrientedCubie { ULF, LFU, FUL, UFR, FRU, RUF, UBL, BLU, LUB, URB, RBU, BUR, DFL, FLD, LDF, DRF, RFD, FDR, DLB, LBD, BDL, DBR, BRD, RDB }
+    public enum OSticker {
+        ULF, LFU, FUL, UFR, FRU, RUF, UBL, BLU, LUB, URB, RBU, BUR, DFL, FLD, LDF, DRF, RFD, FDR, DLB, LBD, BDL, DBR, BRD, RDB,
+        UF, FU, UL, LU, UR, RU, UB, BU, LF, FL, LB, BL, RF, FR, RB, BR, DF, FD, DL, LD, DR, RD, DB, BD
+    }
 
     public enum Turn
     {

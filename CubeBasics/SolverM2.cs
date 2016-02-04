@@ -35,38 +35,99 @@ namespace CubeBasics
         public class Plan : IContainsMoves
         {
             public Cube Cube { get; set; }
+            private List<Turn> Turns { get; set; }
 
             public Plan(Cube cube)
             {
                 this.Cube = cube;
+                this.Turns = new List<Turn>();
             }
 
-            public IEnumerable<Turn> GetMoves()
+            public IEnumerable<Turn> GetTurns()
             {
-                throw new NotImplementedException();
+                return this.Turns;
             }
+
+            private Plan Add(Turn turn)
+            {
+                this.Turns.Add(turn);
+                return this;
+            }
+
+            private Plan L() { return this.Add(Turn.L); }
+            private Plan L_() { return this.Add(Turn.L_); }
+            private Plan R() { return this.Add(Turn.R); }
+            private Plan R_() { return this.Add(Turn.R_); }
+            private Plan U() { return this.Add(Turn.U); }
+            private Plan U_() { return this.Add(Turn.U_); }
+            private Plan D() { return this.Add(Turn.D); }
+            private Plan D_() { return this.Add(Turn.D_); }
+            private Plan F() { return this.Add(Turn.F); }
+            private Plan F_() { return this.Add(Turn.F_); }
+            private Plan B() { return this.Add(Turn.B); }
+            private Plan B_() { return this.Add(Turn.B_); }
 
             public void Create()
             {
                 var startNewPathSticker = Sticker.URB;
                 var okStickers = new List<Sticker>();
 
-                var pos = Sticker.URB;
-                var next = this.Cube[pos];
-                if (next.Type == startNewPathSticker)
+                var location = Sticker.URB;
+                var next = this.Cube[location];
+                do
                 {
-                    // Find new path start
-                    StickerExtensionMethods.AllCornerStickers.Whe
+                    if (next.Type == startNewPathSticker)
+                    {
+                        // Find new path start
+                        // StickerExtensionMethods.AllCornerStickers.Whe
+                    }
+                    AddCornerMoves(next, location);
+                    okStickers.Add(next.Type);
+                    location = next.Type;
                 }
-                AddCornerMoves(next);
-                okStickers.Add(next.Type);
-                pos = next;
-
-
+                while (true);
             }
 
-            private void AddCornerMoves(Cubie cubie)
+            private Plan AddCornerMoves(Cubie cubie, Sticker location)
             {
+                OSticker otype = cubie.Oriented(location);
+                switch (otype)
+                {
+                    case OSticker.URB: throw new InvalidOperationException(nameof(AddCornerMoves));
+                    case OSticker.RBU: throw new InvalidOperationException(nameof(AddCornerMoves));
+                    case OSticker.BUR: throw new InvalidOperationException(nameof(AddCornerMoves));
+
+                    case OSticker.FUL: return this;
+                    case OSticker.ULF: return this.L().F();
+                    case OSticker.LFU: return this.F_().L_();
+
+                    case OSticker.FRU: return this.F_();
+                    case OSticker.RUF: return this.F_().L().F();
+                    case OSticker.UFR: return this.F_().F_().L_();
+
+                    case OSticker.UBL: return this.L();
+                    case OSticker.BLU: return this.L().L().F();
+                    case OSticker.LUB: return this.L().F_().L_();
+
+                    case OSticker.DFL: return this.L_();
+                    case OSticker.FLD: return this.F();
+                    case OSticker.LDF: return this.L_().F_().L_();
+
+                    case OSticker.FDR: return this.F().F();
+                    case OSticker.DRF: return this.F().F().L().F();
+                    case OSticker.RFD: return this.F().L_();
+
+                    case OSticker.BDL: return this.L().L();
+                    case OSticker.DLB: return this.L_().F();
+                    case OSticker.LBD: return this.L().L().F_().L_();
+
+                    case OSticker.DBR: return this.D().D().L_();
+                    case OSticker.BRD: return this.D().D().F();
+                    case OSticker.RDB: return this.D().D().L().F_().L_();
+
+                    default:
+                        throw new NotImplementedException(nameof(AddCornerMoves));
+                }
             }
         }
     }

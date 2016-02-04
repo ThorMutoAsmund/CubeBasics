@@ -8,6 +8,7 @@ namespace CubeBasics
 {
     public interface IContainsMoves
     {
-        IEnumerable<Turn> GetMoves();
+        IEnumerable<Turn> GetTurns();
+        void Describe();
     }
 }
