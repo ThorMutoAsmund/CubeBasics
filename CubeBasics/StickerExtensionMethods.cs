@@ -28,11 +28,6 @@ namespace CubeBasics
             }
         }
 
-        public static Sticker[] AllCornerStickers()
-        {
-            return CornerStickers;
-        }
-
         public static bool IsCorner(this Sticker sticker)
         {
             return CornerStickers.Contains(sticker);

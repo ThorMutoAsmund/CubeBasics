@@ -36,7 +36,7 @@ namespace CubeBasics
         {
             public Cube Cube { get; set; }
             private List<Turn> Turns { get; set; }
-
+            
             public Plan(Cube cube)
             {
                 this.Cube = cube;
@@ -46,6 +46,11 @@ namespace CubeBasics
             public IEnumerable<Turn> GetTurns()
             {
                 return this.Turns;
+            }
+
+            public void Describe()
+            {
+                Console.WriteLine("PLAN with {0} turns{1}", this.Turns.Count(), this.Turns.Count() % 2 == 1 ? " (parity)" : String.Empty);
             }
 
             private Plan Add(Turn turn)
