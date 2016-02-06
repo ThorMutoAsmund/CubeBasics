@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,33 +73,35 @@ namespace CubeBasics
 
             public void Create()
             {
-                var startNewPathSticker = Sticker.URB;
+                var startNewPathSticker = Sticker.cURB;
                 var okStickers = new List<Sticker>();
 
-                var location = Sticker.URB;
-                var next = this.Cube[location];
+                var location = Sticker.cURB;
+                var olocation = OSticker.URB;
                 do
                 {
+                    var next = this.Cube[location];
                     if (next.Type == startNewPathSticker)
                     {
                         // Find new path start
                         // StickerExtensionMethods.AllCornerStickers.Whe
                     }
-                    AddCornerMoves(next, location);
+                    olocation = next.Oriented(olocation);
+                    AddCornerMoves(next, olocation);
                     okStickers.Add(next.Type);
                     location = next.Type;
                 }
                 while (true);
             }
 
-            private Plan AddCornerMoves(Cubie cubie, Sticker location)
+            private Plan AddCornerMoves(Cubie cubie, OSticker otype)
             {
-                OSticker otype = cubie.Oriented(location);
                 switch (otype)
                 {
-                    case OSticker.URB: throw new InvalidOperationException(nameof(AddCornerMoves));
-                    case OSticker.RBU: throw new InvalidOperationException(nameof(AddCornerMoves));
-                    case OSticker.BUR: throw new InvalidOperationException(nameof(AddCornerMoves));
+                    case OSticker.URB: 
+                    case OSticker.RBU:
+                    case OSticker.BUR:
+                        throw new InvalidOperationException("Cannot rotate buffer corner");
 
                     case OSticker.FUL: return this;
                     case OSticker.ULF: return this.L().F();

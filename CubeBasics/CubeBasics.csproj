@@ -47,6 +47,7 @@
     <Compile Include="CubeOld.cs" />
     <Compile Include="Cubie.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="OStickerExtensionMethods.cs" />
     <Compile Include="StickerExtensionMethods.cs" />
     <Compile Include="IPlan.cs" />
     <Compile Include="Program.cs" />

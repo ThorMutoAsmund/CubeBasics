@@ -18,6 +18,14 @@ namespace CubeBasics
             Reset();
         }
 
+        public OSticker this[OSticker index]
+        {
+            get
+            {
+                return this[index.Sticker()].Oriented(index);
+            }
+        }
+
         public Cubie this[Sticker index]
         {
             get
@@ -34,7 +42,7 @@ namespace CubeBasics
         {
             foreach (Sticker key in Enum.GetValues(typeof(Sticker)))
             {
-                this.Cubies[key] = new Cubie(key, 0);
+                this.Cubies[key] = new Cubie(key);
             }
         }
 
@@ -114,7 +122,7 @@ namespace CubeBasics
                 {
                     for (int i = moves.Length-1; i >= 0; --i)
                     {
-                        this[moves[(i + 1) % moves.Length]] = clone[moves[i]].Rot(axis, inverse);
+                        this[moves[i]] = clone[moves[(i + 1) % moves.Length]].Rot(axis, inverse);
                     }
                 }
             }
@@ -124,8 +132,8 @@ namespace CubeBasics
         {
             Do(Axis.X, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { UBL, ULF, DFL, DLB },
-                    new Sticker[] { UL, LF, DL, LB }
+                    new Sticker[] { cUBL, cULF, cDFL, cDLB },
+                    new Sticker[] { eUL, eLF, eDL, eLB }
                 });
             return this;
         }
@@ -135,8 +143,8 @@ namespace CubeBasics
         {
             Do(Axis.X, inverse,
                 new Sticker[2][] {
-                    new Sticker[] { UFR, URB, DBR, DRF},
-                    new Sticker[] { UR, RB, DR, RF }
+                    new Sticker[] { cUFR, cURB, cDBR, cDRF},
+                    new Sticker[] { eUR, eRB, eDR, eRF }
                 });
             return this;
         }
@@ -146,8 +154,8 @@ namespace CubeBasics
         {
             Do(Axis.Y, inverse,
                 new Sticker[2][] {
-                    new Sticker[] { ULF, UBL, URB, UFR },
-                    new Sticker[] { UL, UB, UR, UF }
+                    new Sticker[] { cULF, cUBL, cURB, cUFR },
+                    new Sticker[] { eUL, eUB, eUR, eUF }
                 });
             return this;
         }
@@ -157,8 +165,8 @@ namespace CubeBasics
         {
             Do(Axis.Y, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { DFL, DRF, DBR, DLB },
-                    new Sticker[] { DL, DF, DR, DB }
+                    new Sticker[] { cDFL, cDRF, cDBR, cDLB },
+                    new Sticker[] { eDL, eDF, eDR, eDB }
                 });
             return this;
         }
@@ -168,8 +176,8 @@ namespace CubeBasics
         {
             Do(Axis.Z, inverse,
                 new Sticker[2][] {
-                    new Sticker[] { UBL, DLB, DBR, URB },
-                    new Sticker[] { LB, DB, RB, UB }
+                    new Sticker[] { cUBL, cDLB, cDBR, cURB },
+                    new Sticker[] { eLB, eDB, eRB, eUB }
                 });
             return this;
         }
@@ -179,8 +187,8 @@ namespace CubeBasics
         {
             Do(Axis.Z, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { ULF, UFR, DRF, DFL },
-                    new Sticker[] { UF, RF, DF, LF }
+                    new Sticker[] { cULF, cUFR, cDRF, cDFL },
+                    new Sticker[] { eUF, eRF, eDF, eLF }
                 });
             return this;
         }

@@ -9,8 +9,8 @@ namespace CubeBasics
 {
     public static class StickerExtensionMethods
     {
-        public static Sticker[] CornerStickers = new Sticker[] { ULF, UFR, UBL, URB, DFL, DRF, DLB, DBR };
-        public static Sticker[] EdgeStickers = new Sticker[] { UF, UL, UR, UB, LF, LB, RF, RB, DF, DL, DR, DB };
+        public static Sticker[] CornerStickers = new Sticker[] { cULF, cUFR, cUBL, cURB, cDFL, cDRF, cDLB, cDBR };
+        public static Sticker[] EdgeStickers = new Sticker[] { eUF, eUL, eUR, eUB, eLF, eLB, eRF, eRB, eDF, eDL, eDR, eDB };
 
         public static Sticker[] AllCornerStickers
         {

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace CubeBasics
 {
     public enum Sticker {
-        ULF, UFR, UBL, URB, DFL, DRF, DLB, DBR,
-        UF, UL, UR, UB, LF, LB, RF, RB, DF, DL, DR, DB
+        cULF, cUFR, cUBL, cURB, cDFL, cDRF, cDLB, cDBR,
+        eUF, eUL, eUR, eUB, eLF, eLB, eRF, eRB, eDF, eDL, eDR, eDB
     }
     public enum OSticker {
         ULF, LFU, FUL, UFR, FRU, RUF, UBL, BLU, LUB, URB, RBU, BUR, DFL, FLD, LDF, DRF, RFD, FDR, DLB, LBD, BDL, DBR, BRD, RDB,
