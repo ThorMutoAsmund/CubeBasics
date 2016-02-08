@@ -56,73 +56,54 @@ namespace CubeBasics
             {
             }
 
+            //if (stickersLeft.Count() == 0) throw new InvalidOperationException("0 stickers left but not at end of cycle");
             public void FixCorners()
             {
-                var startNewPathSticker = Sticker.cURB;
+                //var startNewPathSticker = Sticker.cURB;
+                Sticker? pathStart = null;
                 var stickersLeft = new List<Sticker>(StickerExtensionMethods.AllCornerStickers);
 
-                var current = OSticker.URB;
-                OSticker next;
-                bool firstCycle = true;
-                bool restart = false;
-                stickersLeft.Remove(current.Sticker());
+                //var current = OSticker.URB;
+                OSticker? next = null;
+                //bool firstCycle = true;
+                //bool restart = false;
+                //stickersLeft.Remove(current.Sticker());
                 do
                 {
-                    //if (stickersLeft.Count() == 0) throw new InvalidOperationException("0 stickers left but not at end of cycle");
-
-
-                    var nextCubie = this.Cube[current.Sticker()];
-                    if (firstCycle == true && nextCubie.Type == startNewPathSticker)
+                    if (next.HasValue)
                     {
-                        firstCycle = false;
-                        if (stickersLeft.Count() == 0)
+                        if (pathStart.HasValue || next.Value.Sticker() != Sticker.cURB)
                         {
-                            break;
+                            var leadIn = GetLeadIn(next.Value);
+                            Add(leadIn);
+                            Add(cornerSequence);
+                            Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
                         }
 
-                        // Find new path start
-                        startNewPathSticker = stickersLeft.First();
-                        next = (OSticker)((int)startNewPathSticker * 3);
-                        restart = true;
+                        if (
+                            (!pathStart.HasValue && next.Value.Sticker() == Sticker.cURB) ||
+                            (pathStart.HasValue && next.Value.Sticker() == pathStart.Value))
+                        {
+                            if (stickersLeft.Count() == 0)
+                            {
+                                break;
+                            }
+
+                            // Find new path start
+                            pathStart = stickersLeft.First();
+                            next = (OSticker)((int)pathStart.Value * 3);
+                            continue;
+                        }
                     }
                     else
                     {
-                        next = nextCubie.Oriented(current);
+                        next = OSticker.URB;
                     }
 
-                    stickersLeft.Remove(next.Sticker()); // Done one time too much
+                    stickersLeft.Remove(next.Value.Sticker());
 
-                    var leadIn = GetLeadIn(next);
-                    Add(leadIn);
-                    Add(cornerSequence);
-                    Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
-                    current = next;
-
-                    if (restart)
-                    {
-                        restart = false;
-                        continue;
-                    }
-
-                    if (firstCycle == false && current.Sticker() == startNewPathSticker)
-                    {
-                        if (stickersLeft.Count() == 0)
-                        {
-                            break;
-                        }
-
-                        // Find new path start
-                        startNewPathSticker = stickersLeft.First();
-                        next = (OSticker)((int)startNewPathSticker * 3);
-
-                        stickersLeft.Remove(next.Sticker());
-
-                        leadIn = GetLeadIn(next);
-                        Add(leadIn);
-                        Add(cornerSequence);
-                        Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
-                        current = next;
-                    }
+                    var nextCubie = this.Cube[next.Value.Sticker()];
+                    next = nextCubie.Oriented(next.Value);
                 }
                 while (true);
             }
