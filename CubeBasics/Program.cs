@@ -18,9 +18,9 @@ namespace CubeBasics
             var cube = new Cube();
             for (int i = 0; i < 1000; ++i)
             {
-                var fixseed = 635904859886572548;// DateTime.Now.Ticks;
+                var fixseed = 160;// 635904859886572548;// DateTime.Now.Ticks;
                 var seed = DateTime.Now.Ticks;
-                var scrambleSequence = cube.Scramble(25, (int)fixseed); // 160
+                var scrambleSequence = cube.Scramble(25, (int)seed); // 160
                 cube.Apply(scrambleSequence);
                 var solver = new SolverM2(cube);
                 solver.Solve();

@@ -59,15 +59,12 @@ namespace CubeBasics
             //if (stickersLeft.Count() == 0) throw new InvalidOperationException("0 stickers left but not at end of cycle");
             public void FixCorners()
             {
-                //var startNewPathSticker = Sticker.cURB;
                 Sticker? pathStart = null;
                 var stickersLeft = new List<Sticker>(StickerExtensionMethods.AllCornerStickers);
 
-                //var current = OSticker.URB;
                 OSticker? next = null;
-                //bool firstCycle = true;
-                //bool restart = false;
-                //stickersLeft.Remove(current.Sticker());
+                bool atPathHead = true;
+
                 do
                 {
                     if (next.HasValue)
@@ -82,7 +79,7 @@ namespace CubeBasics
 
                         if (
                             (!pathStart.HasValue && next.Value.Sticker() == Sticker.cURB) ||
-                            (pathStart.HasValue && next.Value.Sticker() == pathStart.Value))
+                            (pathStart.HasValue && !atPathHead && next.Value.Sticker() == pathStart.Value))
                         {
                             if (stickersLeft.Count() == 0)
                             {
@@ -92,6 +89,7 @@ namespace CubeBasics
                             // Find new path start
                             pathStart = stickersLeft.First();
                             next = (OSticker)((int)pathStart.Value * 3);
+                            atPathHead = true;
                             continue;
                         }
                     }
@@ -99,6 +97,8 @@ namespace CubeBasics
                     {
                         next = OSticker.URB;
                     }
+
+                    atPathHead = false;
 
                     stickersLeft.Remove(next.Value.Sticker());
 
