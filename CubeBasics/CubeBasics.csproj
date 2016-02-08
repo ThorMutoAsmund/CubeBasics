@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasePlan.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="CubeOld.cs" />
     <Compile Include="Cubie.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="TurnExtensionMethods.cs" />
     <Compile Include="OStickerExtensionMethods.cs" />
     <Compile Include="StickerExtensionMethods.cs" />
     <Compile Include="IPlan.cs" />

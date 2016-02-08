@@ -45,7 +45,7 @@ namespace CubeBasics
         private const int _DR = _D *64 + _R * 8 + _B;
         private const int _DB = _D *64 + _B * 8 + _L;
 
-
+        // Left hand rule
         private static int[][] XGroup = new int[6][]
         {
             new int[4] { _LF, _FR, _RB, _BL },
@@ -56,6 +56,7 @@ namespace CubeBasics
             new int[4] { _LB, _BR, _RF, _FL },
         };
 
+        // Left hand rule
         private static int[][] YGroup = new int[6][]
         {
             new int[4] { _UF, _UR, _UB, _UL },
@@ -66,6 +67,7 @@ namespace CubeBasics
             new int[4] { _DF, _DL, _DB, _DR },
         };
 
+        // Left hand rule
         private static int[][] ZGroup = new int[6][]
         {
             new int[4] { _RD, _BD, _LD, _FD },
@@ -211,6 +213,12 @@ namespace CubeBasics
                     this.OStickerFromColor[_R] = OSticker.RDB;
                     break;
             }
+
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} ({1})", this.Type, this.Orientation);
         }
 
         /*
@@ -306,11 +314,11 @@ namespace CubeBasics
         private OSticker Oriented(Sticker location)
         {
             var u = this.Orientation / 64;
-            var d = (u / 2) + (1 - (u % 2));
+            var d = (u / 2)*2 + (1 - (u % 2));
             //var f = (this.Orientation - u*64) / 8;
             //var l = this.Orientation % 8;
-            //var r = (l / 2) + (1 - (l % 2));
-            //var b = (f / 2) + (1 - (f % 2));
+            //var r = (l / 2)*2 + (1 - (l % 2));
+            //var b = (f / 2)*2 + (1 - (f % 2));
 
             OSticker osticker;
             switch (location)

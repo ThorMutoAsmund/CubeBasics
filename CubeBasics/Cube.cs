@@ -54,14 +54,22 @@ namespace CubeBasics
             };
         }
 
-        public void Scramble(int turns)
+        public Turn[] Scramble(int turns, int? seed = null)
         {
-            var rand = new Random();
+            var turnList = new List<Turn>();
+            Reset();
+            if (!seed.HasValue)
+            {
+                seed = DateTime.Now.Millisecond;
+            }
+            var rand = new Random(seed.Value);
             var possibleTurns = Enum.GetValues(typeof(Turn));
             while (turns-- > 0)
             {
-                this.ApplyTurn((Turn)possibleTurns.GetValue(rand.Next(possibleTurns.Length)));
+                turnList.Add((Turn)possibleTurns.GetValue(rand.Next(possibleTurns.Length)));
             }
+
+            return turnList.ToArray();
         }
 
         public bool IsSolved()
@@ -81,9 +89,14 @@ namespace CubeBasics
 
         public void Apply(IContainsMoves plan)
         {
-            foreach (var move in plan.GetTurns())
+            Apply(plan.GetTurns());
+        }
+
+        public void Apply(IEnumerable<Turn> turns)
+        {
+            foreach (var turn in turns)
             {
-                ApplyTurn(move);
+                ApplyTurn(turn);
             }
         }
 
@@ -132,8 +145,8 @@ namespace CubeBasics
         {
             Do(Axis.X, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { cUBL, cULF, cDFL, cDLB },
-                    new Sticker[] { eUL, eLF, eDL, eLB }
+                    new Sticker[] { cDLB, cDFL, cULF, cUBL },
+                    new Sticker[] { eLB, eDL, eLF, eUL }
                 });
             return this;
         }
@@ -165,8 +178,8 @@ namespace CubeBasics
         {
             Do(Axis.Y, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { cDFL, cDRF, cDBR, cDLB },
-                    new Sticker[] { eDL, eDF, eDR, eDB }
+                    new Sticker[] { cDFL, cDLB, cDBR, cDRF },
+                    new Sticker[] { eDL, eDB, eDR, eDF }
                 });
             return this;
         }
@@ -187,8 +200,8 @@ namespace CubeBasics
         {
             Do(Axis.Z, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { cULF, cUFR, cDRF, cDFL },
-                    new Sticker[] { eUF, eRF, eDF, eLF }
+                    new Sticker[] { cULF, cDFL, cDRF, cUFR },
+                    new Sticker[] { eUF, eLF, eDF, eRF }
                 });
             return this;
         }
