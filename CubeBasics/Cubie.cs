@@ -78,46 +78,6 @@ namespace CubeBasics
             new int[4] { _RU, _FU, _LU, _BU },
         };
 
-        //private Dictionary<Sticker, int[]> Mappings = new Dictionary<Sticker, int[]>();
-
-        /*
-        private static Dictionary<Sticker, Dictionary<Sticker, int[]>> Mappings = new Dictionary<Sticker, Dictionary<Sticker, int[]>>();
-        {
-            { Sticker.cULF, new  Dictionary<Sticker, int[]> { { Sticker.cULF, new int[] { _UF, _LU, _FL } } } },
-            { Sticker.cUFR, new  Dictionary<Sticker, int[]> { { Sticker.cUFR, new int[] { _UF, _FR, _RU } } } },
-            { Sticker.cUBL, new  Dictionary<Sticker, int[]> { { Sticker.cUBL, new int[] { _UF, _BR, _LD } } } },
-            { Sticker.cURB, new  Dictionary<Sticker, int[]> { { Sticker.cURB, new int[] { _UF, _RD, _BL } } } },
-            { Sticker.cDFL, new  Dictionary<Sticker, int[]> { { Sticker.cULF, new int[] { _UF, _BL, _RD } } } },
-            { Sticker.cDRF, new  Dictionary<Sticker, int[]> { { Sticker.cULF, new int[] { _UF, _LD, _BR } } } },
-            { Sticker.cDLB, new  Dictionary<Sticker, int[]> { { Sticker.cULF, new int[] { _UF, _RU, _FR } } } },
-            { Sticker.cDBR, new  Dictionary<Sticker, int[]> { { Sticker.cULF, new int[] { _UF, _FL, _LU } } } },
-            { Sticker.eDB, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eDF, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eDL, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eDR, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eLB, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eLF, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eRB, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eRF, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eUB, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eUF, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eUL, new  Dictionary<Sticker, int[]> {  } },
-            { Sticker.eUR, new  Dictionary<Sticker, int[]> {  } },
-        };*/
-
-        /// <summary>
-        /// Indexers med 1 = egen type, 2 = positionen. Man finder positionen af this.Orientation i det man får ud og det er oStickeren
-        /// </summary>
-
-        //private Dictionary<Sticker, int[]> mapping;
-        //public Dictionary<Sticker, int[]> Mapping
-        //{
-        //    get
-        //    {
-        //        return this.mapping;
-        //    }
-        //}
-
         private Sticker type;
         public Sticker Type
         {
@@ -130,7 +90,7 @@ namespace CubeBasics
                 this.type = value;
                 this.isCorner = value.IsCorner();
                 this.isEdge = value.IsEdge();
-                SetOStickerFromColor(value);
+                SetColorMapping(value);
             }
         }
 
@@ -159,7 +119,7 @@ namespace CubeBasics
             get { return this.Orientation == _UF; }
         }
 
-        private OSticker[] OStickerFromColor { get; set; }
+        private OSticker[] ColorMapping { get; set; }
 
         public Cubie(Sticker type, int orientation = _UF)
         {
@@ -167,91 +127,106 @@ namespace CubeBasics
             this.Orientation = orientation;
         }
 
-        private void SetOStickerFromColor(Sticker type)
+        private void SetColorMapping(Sticker type)
         {
-            this.OStickerFromColor = new OSticker[6];
+            this.ColorMapping = new OSticker[6];
             switch (type)
             {
                 case Sticker.cULF:
-                    this.OStickerFromColor[_U] = OSticker.ULF;
-                    this.OStickerFromColor[_L] = OSticker.LFU;
-                    this.OStickerFromColor[_F] = OSticker.FUL;
+                    this.ColorMapping[_U] = OSticker.ULF;
+                    this.ColorMapping[_L] = OSticker.LFU;
+                    this.ColorMapping[_F] = OSticker.FUL;
                     break;
                 case Sticker.cUFR:
-                    this.OStickerFromColor[_U] = OSticker.UFR;
-                    this.OStickerFromColor[_F] = OSticker.FRU;
-                    this.OStickerFromColor[_R] = OSticker.RUF;
+                    this.ColorMapping[_U] = OSticker.UFR;
+                    this.ColorMapping[_F] = OSticker.FRU;
+                    this.ColorMapping[_R] = OSticker.RUF;
                     break;
                 case Sticker.cUBL:
-                    this.OStickerFromColor[_U] = OSticker.UBL;
-                    this.OStickerFromColor[_B] = OSticker.BLU;
-                    this.OStickerFromColor[_L] = OSticker.LUB;
+                    this.ColorMapping[_U] = OSticker.UBL;
+                    this.ColorMapping[_B] = OSticker.BLU;
+                    this.ColorMapping[_L] = OSticker.LUB;
                     break;
                 case Sticker.cURB:
-                    this.OStickerFromColor[_U] = OSticker.URB;
-                    this.OStickerFromColor[_R] = OSticker.RBU;
-                    this.OStickerFromColor[_B] = OSticker.BUR;
+                    this.ColorMapping[_U] = OSticker.URB;
+                    this.ColorMapping[_R] = OSticker.RBU;
+                    this.ColorMapping[_B] = OSticker.BUR;
                     break;
                 case Sticker.cDFL:
-                    this.OStickerFromColor[_D] = OSticker.DFL;
-                    this.OStickerFromColor[_F] = OSticker.FLD;
-                    this.OStickerFromColor[_L] = OSticker.LDF;
+                    this.ColorMapping[_D] = OSticker.DFL;
+                    this.ColorMapping[_F] = OSticker.FLD;
+                    this.ColorMapping[_L] = OSticker.LDF;
                     break;
                 case Sticker.cDRF:
-                    this.OStickerFromColor[_D] = OSticker.DRF;
-                    this.OStickerFromColor[_R] = OSticker.RFD;
-                    this.OStickerFromColor[_F] = OSticker.FDR;
+                    this.ColorMapping[_D] = OSticker.DRF;
+                    this.ColorMapping[_R] = OSticker.RFD;
+                    this.ColorMapping[_F] = OSticker.FDR;
                     break;
                 case Sticker.cDLB:
-                    this.OStickerFromColor[_D] = OSticker.DLB;
-                    this.OStickerFromColor[_L] = OSticker.LBD;
-                    this.OStickerFromColor[_B] = OSticker.BDL;
+                    this.ColorMapping[_D] = OSticker.DLB;
+                    this.ColorMapping[_L] = OSticker.LBD;
+                    this.ColorMapping[_B] = OSticker.BDL;
                     break;
                 case Sticker.cDBR:
-                    this.OStickerFromColor[_D] = OSticker.DBR;
-                    this.OStickerFromColor[_B] = OSticker.BRD;
-                    this.OStickerFromColor[_R] = OSticker.RDB;
+                    this.ColorMapping[_D] = OSticker.DBR;
+                    this.ColorMapping[_B] = OSticker.BRD;
+                    this.ColorMapping[_R] = OSticker.RDB;
+                    break;
+                case Sticker.eUF:
+                    this.ColorMapping[_U] = OSticker.UF;
+                    this.ColorMapping[_F] = OSticker.FU;
+                    break;
+                case Sticker.eUL:
+                    this.ColorMapping[_U] = OSticker.UL;
+                    this.ColorMapping[_L] = OSticker.LU;
+                    break;
+                case Sticker.eUR:
+                    this.ColorMapping[_U] = OSticker.UR;
+                    this.ColorMapping[_R] = OSticker.RU;
+                    break;
+                case Sticker.eUB:
+                    this.ColorMapping[_U] = OSticker.UB;
+                    this.ColorMapping[_B] = OSticker.BU;
+                    break;
+                case Sticker.eLF:
+                    this.ColorMapping[_L] = OSticker.LF;
+                    this.ColorMapping[_F] = OSticker.FL;
+                    break;
+                case Sticker.eLB:
+                    this.ColorMapping[_L] = OSticker.LB;
+                    this.ColorMapping[_B] = OSticker.BL;
+                    break;
+                case Sticker.eRF:
+                    this.ColorMapping[_R] = OSticker.RF;
+                    this.ColorMapping[_F] = OSticker.FR;
+                    break;
+                case Sticker.eRB:
+                    this.ColorMapping[_R] = OSticker.RB;
+                    this.ColorMapping[_B] = OSticker.BR;
+                    break;
+                case Sticker.eDF:
+                    this.ColorMapping[_D] = OSticker.DF;
+                    this.ColorMapping[_F] = OSticker.FD;
+                    break;
+                case Sticker.eDL:
+                    this.ColorMapping[_D] = OSticker.DF;
+                    this.ColorMapping[_L] = OSticker.LD;
+                    break;
+                case Sticker.eDR:
+                    this.ColorMapping[_D] = OSticker.DR;
+                    this.ColorMapping[_R] = OSticker.RD;
+                    break;
+                case Sticker.eDB:
+                    this.ColorMapping[_D] = OSticker.DB;
+                    this.ColorMapping[_B] = OSticker.BD;
                     break;
             }
-
         }
 
         public override string ToString()
         {
             return String.Format("{0} ({1})", this.Type, this.Orientation);
         }
-
-        /*
-        private Dictionary<Sticker, int[]> CreateMapping(Sticker type)
-        {
-            var result = new Dictionary<Sticker, int[]>();
-
-            foreach (var loc in StickerExtensionMethods.AllCornerStickers)
-            {
-                switch (loc)
-                {
-                    case Sticker.cULF:
-
-                        break;
-                    case Sticker.cUFR:
-                        break;
-                    case Sticker.cUBL:
-                        break;
-                    case Sticker.cURB:
-                        break;
-                    case Sticker.cDFL:
-                        break;
-                    case Sticker.cDRF:
-                        break;
-                    case Sticker.cDLB:
-                        break;
-                    case Sticker.cDBR:
-                        break;
-                }
-            }
-
-            return result;
-        }*/
 
         public Cubie Clone(int? orientation = null)
         {
@@ -307,17 +282,14 @@ namespace CubeBasics
         public OSticker Oriented(OSticker location)
         {
             var result = this.Oriented(location.Sticker());
-            var a = (3*((int)result / 3)) + (((int)result % 3) + ((int)location % 3)) % 3;
-            return (OSticker)a;
+            var a = this.IsCorner ? 3 : 2;
+
+            return (OSticker)((a * ((int)result / a)) + (((int)result % a) + ((int)location % a)) % a);
         }
 
         private OSticker Oriented(Sticker location)
         {
-            var u = this.Orientation / 64;
-            var d = (u / 2)*2 + (1 - (u % 2));
             //var f = (this.Orientation - u*64) / 8;
-            //var l = this.Orientation % 8;
-            //var r = (l / 2)*2 + (1 - (l % 2));
             //var b = (f / 2)*2 + (1 - (f % 2));
 
             OSticker osticker;
@@ -327,15 +299,46 @@ namespace CubeBasics
                 case Sticker.cUFR:
                 case Sticker.cUBL:
                 case Sticker.cURB:
-                    osticker = this.OStickerFromColor[u];
-                    break;
-                //case Sticker.cDFL:
-                //case Sticker.cDRF:
-                //case Sticker.cDLB:
-                //case Sticker.cDBR:
+                case Sticker.eUB:
+                case Sticker.eUF:
+                case Sticker.eUL:
+                case Sticker.eUR:
+                    {
+                        var u = this.Orientation / 64;
+                        osticker = this.ColorMapping[u];
+                        break;
+                    }
+                case Sticker.cDFL:
+                case Sticker.cDRF:
+                case Sticker.cDLB:
+                case Sticker.cDBR:
+                case Sticker.eDB:
+                case Sticker.eDF:
+                case Sticker.eDL:
+                case Sticker.eDR:
+                    {
+                        var u = this.Orientation / 64;
+                        var d = (u / 2) * 2 + (1 - (u % 2));
+                        osticker = this.ColorMapping[d];
+                        break;
+                    }
+                case Sticker.eLB:
+                case Sticker.eLF:
+                    {
+                        var l = this.Orientation % 8;
+                        osticker = this.ColorMapping[l];
+                        break;
+                    }
+                case Sticker.eRB:
+                case Sticker.eRF:
+                    {
+                        var l = this.Orientation % 8;
+                        var r = (l / 2)*2 + (1 - (l % 2));
+                        osticker = this.ColorMapping[r];
+                        break;
+                    }
                 default:
-                    osticker = this.OStickerFromColor[d];
-                    break;
+                    throw new InvalidOperationException(String.Format("Color mapping not defined for location '{0}'", location));
             }
 
             return osticker;

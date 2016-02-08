@@ -8,7 +8,8 @@ namespace CubeBasics
 {
     public enum Sticker {
         cULF, cUFR, cUBL, cURB, cDFL, cDRF, cDLB, cDBR,
-        eUF, eUL, eUR, eUB, eLF, eLB, eRF, eRB, eDF, eDL, eDR, eDB
+        eUF, eUL, eUR, eUB, eLF, eLB, eRF, eRB, eDF, eDL, eDR, eDB,
+        mU, mF, mL, mR, mB, mD
     }
     public enum OSticker {
         ULF, LFU, FUL, UFR, FRU, RUF, UBL, BLU, LUB, URB, RBU, BUR, DFL, FLD, LDF, DRF, RFD, FDR, DLB, LBD, BDL, DBR, BRD, RDB,
@@ -17,7 +18,8 @@ namespace CubeBasics
 
     public enum Turn
     {
-        U, U_, F, F_, L, L_, R, R_, B, B_, D, D_
+        U, U_, F, F_, L, L_, R, R_, B, B_, D, D_,
+        M, M_, E, E_, S, S_,
     }
 
     public enum Axis

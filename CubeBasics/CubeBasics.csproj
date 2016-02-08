@@ -54,7 +54,7 @@
     <Compile Include="IPlan.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SolverM2.cs" />
+    <Compile Include="SolverClassic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

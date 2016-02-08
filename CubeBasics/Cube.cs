@@ -116,6 +116,12 @@ namespace CubeBasics
                 case Turn.B_: B_(); break;
                 case Turn.D: D(); break;
                 case Turn.D_: D_(); break;
+                case Turn.M: M(); break;
+                case Turn.M_: M_(); break;
+                case Turn.E: E(); break;
+                case Turn.E_: E_(); break;
+                case Turn.S: S(); break;
+                case Turn.S_: S_(); break;
             }
         }
 
@@ -206,5 +212,38 @@ namespace CubeBasics
             return this;
         }
         public Cube F_() { return F(true); }
+
+        public Cube M(bool inverse = false)
+        {
+            Do(Axis.X, !inverse,
+                new Sticker[2][] {
+                    new Sticker[] { mU, mB, mD, mF },
+                    new Sticker[] { eUF, eUB, eDB, eDF }
+                });
+            return this;
+        }
+        public Cube M_() { return M(true); }
+
+        public Cube E(bool inverse = false)
+        {
+            Do(Axis.Y, !inverse,
+                new Sticker[2][] {
+                    new Sticker[] { mL, mB, mR, mF },
+                    new Sticker[] { eLF, eLB, eRB, eRF }
+                });
+            return this;
+        }
+        public Cube E_() { return E(true); }
+
+        public Cube S(bool inverse = false)
+        {
+            Do(Axis.Z, !inverse,
+                new Sticker[2][] {
+                    new Sticker[] { mU, mL, mD, mR },
+                    new Sticker[] { eUL, eDL, eDR, eUR }
+                });
+            return this;
+        }
+        public Cube S_() { return S(true); }
     }
 }

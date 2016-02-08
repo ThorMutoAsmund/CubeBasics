@@ -10,11 +10,21 @@ namespace CubeBasics
     {
         static void Main(string[] args)
         {
-            //var cube = new CubeOld(3);
-            //var series = cube.Scramble(10);
-            //Console.WriteLine(series);
-            //cube.Show();
+            Test1();
 
+            Console.WriteLine("Finished!");
+            Console.ReadKey();
+        }
+
+        static void Test1()
+        {
+            var cube = new Cube();
+            cube.M().M();
+            Console.WriteLine(cube[Sticker.eUB].Oriented(OSticker.UB));
+        }
+
+        static void Test2()
+        { 
             var cube = new Cube();
             for (int i = 0; i < 1000; ++i)
             {
@@ -22,7 +32,7 @@ namespace CubeBasics
                 var seed = DateTime.Now.Ticks;
                 var scrambleSequence = cube.Scramble(25, (int)seed); // 160
                 cube.Apply(scrambleSequence);
-                var solver = new SolverM2(cube);
+                var solver = new SolverClassic(cube);
                 solver.Solve();
                 if (!cube.AreCornersSolved())
                 {
@@ -41,8 +51,6 @@ namespace CubeBasics
                     Console.WriteLine(i);
                 }
             }
-            Console.WriteLine("Finished!");
-            Console.ReadKey();
         }
     }
 }
