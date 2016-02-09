@@ -342,19 +342,6 @@ namespace CubeBasics
             }
 
             return osticker;
-
-            /*
-            var m = this.Mapping[location];
-
-            if (this.Orientation == m[0])
-                return (OSticker)((int)this.Type * 3);
-            else if (this.Orientation == m[1])
-                return (OSticker)((int)this.Type * 3 + 1);
-            else if (this.Orientation == m[2])
-                return (OSticker)((int)this.Type * 3 + 2);
-            else
-                throw new InvalidOperationException("Mapping does not contain orientation");
-                */
         }
     }
 }

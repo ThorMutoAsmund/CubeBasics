@@ -8,6 +8,7 @@ namespace CubeBasics
     public class SolverClassic
     {
         public Cube Cube { get; set; }
+
         private ClassicPlan Plan { get; set; }
 
         public SolverClassic(Cube cube)
@@ -39,7 +40,6 @@ namespace CubeBasics
             this.Plan.Describe();
         }
 
-
         public class ClassicPlan : BasePlan
         {
             private readonly Turn[] cornerSequence = new Turn[] { Turn.U, Turn.B, Turn.L, Turn.L, Turn.F, Turn.F, Turn.D, Turn.F, Turn.D_, Turn.F, Turn.L_, Turn.L_, Turn.B_ };
@@ -65,24 +65,30 @@ namespace CubeBasics
                 this.HasParity = this.NumberOfEdgeSteps % 2 == 1;
                 if (this.HasParity)
                 {
-                    this.ApplyEdgeSequence(OSticker.UL);
-                    this.NumberOfEdgeSteps--;
+                    this.ApplySequence(OSticker.UL);
                 }
                 this.FixCorners();
                 if (this.HasParity)
                 {
-                    this.ApplyEdgeSequence(OSticker.UB);
-                    this.NumberOfEdgeSteps--;
-                    this.ApplyEdgeSequence(OSticker.UL);
-                    this.NumberOfEdgeSteps--;
+                    this.ApplySequence(OSticker.UB);
+                    this.ApplySequence(OSticker.UL);
                 }
             }
 
-
             public void FixEdges()
             {
+                Fix(StickerExtensionMethods.AllEdgeStickers, Sticker.eUR);
+            }
+
+            public void FixCorners()
+            {
+                Fix(StickerExtensionMethods.AllCornerStickers, Sticker.cURB);
+            }
+
+            private void Fix(Sticker[] allStickers, Sticker bufferPosition)
+            {
                 Sticker? cycleHead = null;
-                var stickersLeft = new List<Sticker>(StickerExtensionMethods.AllEdgeStickers);
+                var stickersLeft = new List<Sticker>(allStickers);
 
                 OSticker? next = null;
                 bool atCycleHead = true;
@@ -91,13 +97,13 @@ namespace CubeBasics
                 {
                     if (next.HasValue)
                     {
-                        if (cycleHead.HasValue || next.Value.Sticker() != Sticker.eUR)
+                        if (cycleHead.HasValue || next.Value.Sticker() != bufferPosition)
                         {
-                            ApplyEdgeSequence(next.Value);
+                            ApplySequence(next.Value);
                         }
 
                         if (
-                            (!cycleHead.HasValue && next.Value.Sticker() == Sticker.eUR) ||
+                            (!cycleHead.HasValue && next.Value.Sticker() == bufferPosition) ||
                             (cycleHead.HasValue && !atCycleHead && next.Value.Sticker() == cycleHead.Value))
                         {
                             if (stickersLeft.Count() == 0)
@@ -108,13 +114,13 @@ namespace CubeBasics
                             // Find new path start
                             cycleHead = stickersLeft.First();
                             atCycleHead = true;
-                            next = (OSticker)(((int)cycleHead.Value - (int)Sticker.eUF) * 2 + (int)OSticker.UF);
+                            next = cycleHead.Value.PrimarySticker();
                             continue;
                         }
                     }   
                     else
                     {
-                        next = OSticker.UR;
+                        next = bufferPosition.PrimarySticker();
                     }
 
                     atCycleHead = false;
@@ -127,70 +133,24 @@ namespace CubeBasics
                 while (true);
             }
 
-            public void FixCorners()
+            public void ApplySequence(OSticker osticker)
             {
-                Sticker? cycleHead = null;
-                var stickersLeft = new List<Sticker>(StickerExtensionMethods.AllCornerStickers);
-
-                OSticker? next = null;
-                bool atCycleHead = true;
-
-                do
+                if (osticker.Sticker().IsEdge())
                 {
-                    if (next.HasValue)
-                    {
-                        if (cycleHead.HasValue || next.Value.Sticker() != Sticker.cURB)
-                        {
-                            ApplyCornerSequence(next.Value);
-                        }
-
-                        if (
-                            (!cycleHead.HasValue && next.Value.Sticker() == Sticker.cURB) ||
-                            (cycleHead.HasValue && !atCycleHead && next.Value.Sticker() == cycleHead.Value))
-                        {
-                            if (stickersLeft.Count() == 0)
-                            {
-                                break;
-                            }
-
-                            // Find new path start
-                            cycleHead = stickersLeft.First();
-                            atCycleHead = true;
-                            next = (OSticker)((int)cycleHead.Value * 3);
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        next = OSticker.URB;
-                    }
-
-                    atCycleHead = false;
-
-                    stickersLeft.Remove(next.Value.Sticker());
-
-                    var nextCubie = this.Cube[next.Value.Sticker()];
-                    next = nextCubie.Oriented(next.Value);
+                    var leadIn = GetLeadIn(osticker);
+                    this.NumberOfEdgeSteps++;
+                    Add(leadIn);
+                    Add(edgeSequence);
+                    Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
                 }
-                while (true);
-            }
-
-            public void ApplyEdgeSequence(OSticker osticker)
-            {
-                var leadIn = GetLeadIn(osticker);
-                this.NumberOfEdgeSteps++;
-                Add(leadIn);
-                Add(edgeSequence);
-                Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
-            }
-
-            public void ApplyCornerSequence(OSticker osticker)
-            {
-                var leadIn = GetLeadIn(osticker);
-                this.NumberOfCornerSteps++;
-                Add(leadIn);
-                Add(cornerSequence);
-                Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
+                else
+                {
+                    var leadIn = GetLeadIn(osticker);
+                    this.NumberOfCornerSteps++;
+                    Add(leadIn);
+                    Add(cornerSequence);
+                    Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
+                }
             }
 
             public Turn[] GetLeadIn(OSticker otype)
