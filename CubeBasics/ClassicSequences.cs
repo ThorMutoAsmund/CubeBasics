@@ -6,8 +6,28 @@ using System.Threading.Tasks;
 
 namespace CubeBasics
 {
-    public static class ClassicLeadIns
+    public static class ClassicSequences
     {
+        private static Turn[] cornerSequence = new Turn[] { Turn.U, Turn.B, Turn.L, Turn.L, Turn.F, Turn.F, Turn.D, Turn.F, Turn.D_, Turn.F, Turn.L_, Turn.L_, Turn.B_ };
+
+        private static Turn[] edgeSequence = new Turn[] { Turn.R, Turn.B, Turn.B, Turn.D, Turn.D, Turn.F, Turn.L, Turn.F_, Turn.D, Turn.D, Turn.B, Turn.R_, Turn.B };
+
+        public static Turn[] CornerSequence
+        {
+            get
+            {
+                return cornerSequence;
+            }
+        }
+
+        public static Turn[] EdgeSequence
+        {
+            get
+            {
+                return edgeSequence;
+            }
+        }
+
         public static Turn[] GetLeadIn(OSticker otype)
         {
             switch (otype)

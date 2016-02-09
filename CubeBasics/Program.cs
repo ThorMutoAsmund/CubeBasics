@@ -10,17 +10,51 @@ namespace CubeBasics
     {
         static void Main(string[] args)
         {
-            TestSolve(c => { return new SolverClassic(c); });
+            TestSolve(c => { return new SolverM2(c); });
 
             Console.WriteLine("Finished!");
             Console.ReadKey();
         }
-        
+
         static void TestSolve(Func<Cube, ISolver> solverCreator)
         {
-            var totalSolves = 10;
+            var totalSolves = 100;
             var cube = new Cube();
             var solver = solverCreator(cube);
+
+            Console.WriteLine("Performing {0} solves using {1}", totalSolves, solver);
+            for (int i = 0; i < totalSolves; ++i)
+            {
+                var fixseed = 635906536730923589;// DateTime.Now.Ticks;
+                var seed = DateTime.Now.Ticks;
+                var scrambleSequence = cube.Scramble(25, (int)seed);
+                cube.Apply(scrambleSequence);
+                solver.Solve();
+
+                if (!cube.IsSolved())
+                {
+                    Console.WriteLine("Not solved (seed={0}))!", seed);
+                    Console.Write("Seq: ");
+                    foreach (var turn in scrambleSequence)
+                    {
+                        Console.Write(turn); Console.Write(" ");
+                    }
+                    Console.WriteLine();
+                    solver.DescribePlan();
+                    break;
+                }
+                if (i % 100 == 0)
+                {
+                    Console.WriteLine(i);
+                }
+            }
+        }
+
+        static void TestMinMaxSteps()
+        {
+            var totalSolves = 3000;
+            var cube = new Cube();
+            var solver = new SolverClassic(cube);
 
             var maxSteps = 0;
             var minSteps = 100000;
@@ -29,7 +63,6 @@ namespace CubeBasics
             Console.WriteLine("Performing {0} solves using {1}", totalSolves, solver);
             for (int i = 0; i < totalSolves; ++i)
             {
-                var fixseed = 635906536730923589;// DateTime.Now.Ticks;
                 var seed = DateTime.Now.Ticks;
                 var scrambleSequence = cube.Scramble(25, (int)seed);
                 cube.Apply(scrambleSequence);
@@ -46,18 +79,6 @@ namespace CubeBasics
                 }
                 stepAverage += steps;
 
-                if (!cube.IsSolved())
-                {
-                    Console.WriteLine("Not solved (seed={0}))!", seed);
-                    Console.Write("Seq: ");
-                    foreach (var turn in scrambleSequence)
-                    {
-                        Console.Write(turn); Console.Write(" ");
-                    }
-                    Console.WriteLine();
-                    solver.DescribePlan();
-                    break;
-                }
                 if (i % 100 == 0)
                 {
                     Console.WriteLine(i);

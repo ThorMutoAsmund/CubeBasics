@@ -63,7 +63,7 @@ namespace CubeBasics
                 seed = DateTime.Now.Millisecond;
             }
             var rand = new Random(seed.Value);
-            var possibleTurns = TurnExtensionMethods.AllBasicTurns;
+            var possibleTurns = TurnExtensionMethods.BasicTurns;
             while (turns-- > 0)
             {
                 turnList.Add((Turn)possibleTurns.GetValue(rand.Next(possibleTurns.Length)));

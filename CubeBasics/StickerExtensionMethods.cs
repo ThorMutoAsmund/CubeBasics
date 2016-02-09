@@ -9,14 +9,14 @@ namespace CubeBasics
 {
     public static class StickerExtensionMethods
     {
-        public static Sticker[] CornerStickers = new Sticker[] { cULF, cUFR, cUBL, cURB, cDFL, cDRF, cDLB, cDBR };
-        public static Sticker[] EdgeStickers = new Sticker[] { eUF, eUL, eUR, eUB, eLF, eLB, eRF, eRB, eDF, eDL, eDR, eDB };
+        private static Sticker[] cornerStickers = new Sticker[] { cULF, cUFR, cUBL, cURB, cDFL, cDRF, cDLB, cDBR };
+        private static Sticker[] edgeStickers = new Sticker[] { eUF, eUL, eUR, eUB, eLF, eLB, eRF, eRB, eDF, eDL, eDR, eDB };
 
         public static Sticker[] AllCornerStickers
         {
             get
             {
-                return CornerStickers;
+                return cornerStickers;
             }
         }
 
@@ -24,18 +24,18 @@ namespace CubeBasics
         {
             get
             {
-                return EdgeStickers;
+                return edgeStickers;
             }
         }
 
         public static bool IsCorner(this Sticker sticker)
         {
-            return CornerStickers.Contains(sticker);
+            return cornerStickers.Contains(sticker);
         }
 
         public static bool IsEdge(this Sticker sticker)
         {
-            return EdgeStickers.Contains(sticker);
+            return edgeStickers.Contains(sticker);
         }
 
         public static OSticker PrimarySticker(this Sticker sticker)

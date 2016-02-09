@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasePlan.cs" />
-    <Compile Include="ClassicLeadIns.cs" />
+    <Compile Include="ClassicSequences.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="Cubie.cs" />
     <Compile Include="Enums.cs" />

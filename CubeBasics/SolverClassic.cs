@@ -7,10 +7,6 @@ namespace CubeBasics
 {
     public class SolverClassic : BaseSolver
     {
-        private readonly Turn[] cornerSequence = new Turn[] { Turn.U, Turn.B, Turn.L, Turn.L, Turn.F, Turn.F, Turn.D, Turn.F, Turn.D_, Turn.F, Turn.L_, Turn.L_, Turn.B_ };
-
-        private readonly Turn[] edgeSequence = new Turn[] { Turn.R, Turn.B, Turn.B, Turn.D, Turn.D, Turn.F, Turn.L, Turn.F_, Turn.D, Turn.D, Turn.B, Turn.R_, Turn.B };
-
         public SolverClassic(Cube cube) :
                             base(cube)
         {
@@ -69,19 +65,19 @@ namespace CubeBasics
         {
             if (osticker.Sticker().IsEdge())
             {
-                var leadIn = ClassicLeadIns.GetLeadIn(osticker);
+                var leadIn = ClassicSequences.GetLeadIn(osticker);
                 this.NumberOfEdgeSteps++;
                 Add(leadIn);
-                Add(edgeSequence);
-                Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
+                Add(ClassicSequences.EdgeSequence);
+                Add(leadIn.Inverse());
             }
             else
             {
-                var leadIn = ClassicLeadIns.GetLeadIn(osticker);
+                var leadIn = ClassicSequences.GetLeadIn(osticker);
                 this.NumberOfCornerSteps++;
                 Add(leadIn);
-                Add(cornerSequence);
-                Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
+                Add(ClassicSequences.CornerSequence);
+                Add(leadIn.Inverse());
             }
         }
         private void Fix(Sticker[] allStickers, Sticker bufferPosition)
@@ -126,7 +122,7 @@ namespace CubeBasics
                             atCycleHead = true;
                             next = cycleHead.Value.PrimarySticker();
                         }
-                        while (this.Cube[next.Value.Sticker()].Type == cycleHead);
+                        while (this.Cube[next.Value.Sticker()].Type == cycleHead && this.Cube[next.Value.Sticker()].IsCorrect);
 
                         if (stickersLeft.Count() == 0)
                         {
