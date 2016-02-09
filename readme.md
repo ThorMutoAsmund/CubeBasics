@@ -1,0 +1,1 @@
+The CubeBasic framework for solving 3x3 Rubik's Cube
