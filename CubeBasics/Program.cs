@@ -10,43 +10,42 @@ namespace CubeBasics
     {
         static void Main(string[] args)
         {
-            Test2();
+            TestSolve(c => { return new SolverClassic(c); });
 
             Console.WriteLine("Finished!");
             Console.ReadKey();
         }
-
-        static void Test1()
+        
+        static void TestSolve(Func<Cube, ISolver> solverCreator)
         {
+            var totalSolves = 10;
             var cube = new Cube();
-            var scrambleSequence = cube.Scramble(25, 160255);
-            cube.Apply(scrambleSequence);
-            var solver = new SolverClassic(cube);
-            solver.SolveEdges();
-            if (!cube.AreEdgesSolved())
-            {
-                Console.WriteLine("Edges not solved!");
-                Console.Write("Seq: ");
-                foreach (var turn in scrambleSequence)
-                {
-                    Console.Write(turn); Console.Write(" ");
-                }
-                Console.WriteLine();
-                solver.DescribePlan();
-            }
-        }
+            var solver = solverCreator(cube);
 
-        static void Test2()
-        { 
-            var cube = new Cube();
-            for (int i = 0; i < 1000; ++i)
+            var maxSteps = 0;
+            var minSteps = 100000;
+            var stepAverage = 0;
+
+            Console.WriteLine("Performing {0} solves using {1}", totalSolves, solver);
+            for (int i = 0; i < totalSolves; ++i)
             {
-                var fixseed = 160;// 635904859886572548;// DateTime.Now.Ticks;
+                var fixseed = 635906536730923589;// DateTime.Now.Ticks;
                 var seed = DateTime.Now.Ticks;
-                var scrambleSequence = cube.Scramble(25, (int)160); // 160
+                var scrambleSequence = cube.Scramble(25, (int)seed);
                 cube.Apply(scrambleSequence);
-                var solver = new SolverClassic(cube);
                 solver.Solve();
+
+                var steps = solver.TotalStepsWithoutParity;
+                if (steps < minSteps)
+                {
+                    minSteps = steps;
+                }
+                if (steps > maxSteps)
+                {
+                    maxSteps = steps;
+                }
+                stepAverage += steps;
+
                 if (!cube.IsSolved())
                 {
                     Console.WriteLine("Not solved (seed={0}))!", seed);
@@ -64,6 +63,10 @@ namespace CubeBasics
                     Console.WriteLine(i);
                 }
             }
+
+            Console.WriteLine("Minimum number of steps in a solve: {0}", minSteps);
+            Console.WriteLine("Maximum number of steps in a solve: {0}", maxSteps);
+            Console.WriteLine("Average number of steps in a solve: {0:N2}", stepAverage / totalSolves);
         }
     }
 }

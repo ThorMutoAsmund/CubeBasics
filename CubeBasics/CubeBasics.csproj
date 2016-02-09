@@ -44,14 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasePlan.cs" />
+    <Compile Include="ClassicLeadIns.cs" />
     <Compile Include="Cube.cs" />
-    <Compile Include="CubeOld.cs" />
     <Compile Include="Cubie.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="ISolver.cs" />
+    <Compile Include="SolverM2.cs" />
     <Compile Include="TurnExtensionMethods.cs" />
     <Compile Include="OStickerExtensionMethods.cs" />
     <Compile Include="StickerExtensionMethods.cs" />
-    <Compile Include="IPlan.cs" />
+    <Compile Include="IContainsTurns.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolverClassic.cs" />

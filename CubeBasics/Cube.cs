@@ -63,7 +63,7 @@ namespace CubeBasics
                 seed = DateTime.Now.Millisecond;
             }
             var rand = new Random(seed.Value);
-            var possibleTurns = Enum.GetValues(typeof(Turn));
+            var possibleTurns = TurnExtensionMethods.AllBasicTurns;
             while (turns-- > 0)
             {
                 turnList.Add((Turn)possibleTurns.GetValue(rand.Next(possibleTurns.Length)));
@@ -87,7 +87,7 @@ namespace CubeBasics
             return this.Cubies.Values.Where(cubie => cubie.IsEdge).All(cubie => cubie.IsCorrect);
         }
 
-        public void Apply(IContainsMoves plan)
+        public void Apply(IContainsTurns plan)
         {
             Apply(plan.GetTurns());
         }

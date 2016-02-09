@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace CubeBasics
 {
-    public interface IContainsMoves
+    public interface IContainsTurns
     {
         IEnumerable<Turn> GetTurns();
-        void Describe();
     }
 }

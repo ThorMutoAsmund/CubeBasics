@@ -6,20 +6,41 @@ using System.Threading.Tasks;
 
 namespace CubeBasics
 {
-    public class BasePlan : IContainsMoves
+    public class BaseSolver : ISolver, IContainsTurns
     {
-        protected Cube Cube { get; set; }
-        protected List<Turn> Turns { get; set; }
-
-        public BasePlan(Cube cube)
+        public BaseSolver(Cube cube)
         {
             this.Cube = cube;
             this.Turns = new List<Turn>();
+            Clear();
         }
 
-        public virtual void Describe()
+        public int NumberOfCornerSteps { get; protected set; }
+
+        public int NumberOfEdgeSteps { get; protected set; }
+
+        public virtual int TotalStepsWithoutParity
         {
-            Console.WriteLine("PLAN with {0} turns: ", this.Turns.Count());
+            get
+            {
+                throw new NotImplementedException(nameof(TotalStepsWithoutParity));
+            }
+        }
+
+        protected Cube Cube { get; set; }
+
+        protected List<Turn> Turns { get; set; }
+
+        public void Clear()
+        {
+            this.Turns.Clear();
+            this.NumberOfCornerSteps = 0;
+            this.NumberOfEdgeSteps = 0;
+        }
+
+        public virtual void DescribePlan()
+        {
+            Console.WriteLine("Solve with {0} turns: ", this.Turns.Count());
         }
 
         public IEnumerable<Turn> GetTurns()
@@ -27,30 +48,39 @@ namespace CubeBasics
             return this.Turns;
         }
 
-        protected BasePlan Add(Turn[] turns)
+        public virtual void Solve()
+        {
+            throw new NotImplementedException(nameof(Solve));
+        }
+        protected BaseSolver Add(Turn[] turns)
         {
             this.Turns.AddRange(turns);
             return this;
         }
 
-        protected BasePlan Add(Turn turn)
+        protected BaseSolver Add(Turn turn)
         {
             this.Turns.Add(turn);
             return this;
         }
 
-        private BasePlan L() { return this.Add(Turn.L); }
-        private BasePlan L_() { return this.Add(Turn.L_); }
-        private BasePlan R() { return this.Add(Turn.R); }
-        private BasePlan R_() { return this.Add(Turn.R_); }
-        private BasePlan U() { return this.Add(Turn.U); }
-        private BasePlan U_() { return this.Add(Turn.U_); }
-        private BasePlan D() { return this.Add(Turn.D); }
-        private BasePlan D_() { return this.Add(Turn.D_); }
-        private BasePlan F() { return this.Add(Turn.F); }
-        private BasePlan F_() { return this.Add(Turn.F_); }
-        private BasePlan B() { return this.Add(Turn.B); }
-        private BasePlan B_() { return this.Add(Turn.B_); }
+        private BaseSolver B() { return this.Add(Turn.B); }
 
+        private BaseSolver B_() { return this.Add(Turn.B_); }
+
+        private BaseSolver D() { return this.Add(Turn.D); }
+
+        private BaseSolver D_() { return this.Add(Turn.D_); }
+
+        private BaseSolver F() { return this.Add(Turn.F); }
+
+        private BaseSolver F_() { return this.Add(Turn.F_); }
+
+        private BaseSolver L() { return this.Add(Turn.L); }
+        private BaseSolver L_() { return this.Add(Turn.L_); }
+        private BaseSolver R() { return this.Add(Turn.R); }
+        private BaseSolver R_() { return this.Add(Turn.R_); }
+        private BaseSolver U() { return this.Add(Turn.U); }
+        private BaseSolver U_() { return this.Add(Turn.U_); }
     }
 }
