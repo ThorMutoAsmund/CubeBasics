@@ -74,7 +74,7 @@ namespace CubeBasics
 
         public bool IsSolved()
         {
-            return this.Cubies.Values.All(cubie => cubie.IsCorrect);
+            return this.Cubies.Values.Where(cubie => cubie.IsCorner || cubie.IsEdge).All(cubie => cubie.IsCorrect);
         }
 
         public bool AreCornersSolved()
@@ -150,7 +150,8 @@ namespace CubeBasics
         public Cube L(bool inverse = false)
         {
             Do(Axis.X, !inverse,
-                new Sticker[2][] {
+                new Sticker[3][] {
+                    new Sticker[] { mL },
                     new Sticker[] { cDLB, cDFL, cULF, cUBL },
                     new Sticker[] { eLB, eDL, eLF, eUL }
                 });
@@ -161,7 +162,8 @@ namespace CubeBasics
         public Cube R(bool inverse = false)
         {
             Do(Axis.X, inverse,
-                new Sticker[2][] {
+                new Sticker[3][] {
+                    new Sticker[] { mR },
                     new Sticker[] { cUFR, cURB, cDBR, cDRF},
                     new Sticker[] { eUR, eRB, eDR, eRF }
                 });
@@ -172,7 +174,8 @@ namespace CubeBasics
         public Cube U(bool inverse = false)
         {
             Do(Axis.Y, inverse,
-                new Sticker[2][] {
+                new Sticker[3][] {
+                    new Sticker[] { mU },
                     new Sticker[] { cULF, cUBL, cURB, cUFR },
                     new Sticker[] { eUL, eUB, eUR, eUF }
                 });
@@ -183,7 +186,8 @@ namespace CubeBasics
         public Cube D(bool inverse = false)
         {
             Do(Axis.Y, !inverse,
-                new Sticker[2][] {
+                new Sticker[3][] {
+                    new Sticker[] { mD },
                     new Sticker[] { cDFL, cDLB, cDBR, cDRF },
                     new Sticker[] { eDL, eDB, eDR, eDF }
                 });
@@ -194,7 +198,8 @@ namespace CubeBasics
         public Cube B(bool inverse = false)
         {
             Do(Axis.Z, inverse,
-                new Sticker[2][] {
+                new Sticker[3][] {
+                    new Sticker[] { mB },
                     new Sticker[] { cUBL, cDLB, cDBR, cURB },
                     new Sticker[] { eLB, eDB, eRB, eUB }
                 });
@@ -205,7 +210,8 @@ namespace CubeBasics
         public Cube F(bool inverse = false)
         {
             Do(Axis.Z, !inverse,
-                new Sticker[2][] {
+                new Sticker[3][] {
+                    new Sticker[] { mF },
                     new Sticker[] { cULF, cDFL, cDRF, cUFR },
                     new Sticker[] { eUF, eLF, eDF, eRF }
                 });

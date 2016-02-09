@@ -61,17 +61,20 @@ namespace CubeBasics
 
             public void FixCube()
             {
+                this.FixEdges();
+                this.HasParity = this.NumberOfEdgeSteps % 2 == 1;
+                if (this.HasParity)
+                {
+                    this.ApplyEdgeSequence(OSticker.UL);
+                    this.NumberOfEdgeSteps--;
+                }
                 this.FixCorners();
-                this.HasParity = this.NumberOfCornerSteps % 2 == 1;
                 if (this.HasParity)
                 {
                     this.ApplyEdgeSequence(OSticker.UB);
                     this.NumberOfEdgeSteps--;
-                }
-                this.FixEdges();
-                if (this.HasParity)
-                {
-//                    this.ApplyCornerSequence(OSticker.FRU);
+                    this.ApplyEdgeSequence(OSticker.UL);
+                    this.NumberOfEdgeSteps--;
                 }
             }
 

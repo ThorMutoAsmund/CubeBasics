@@ -43,7 +43,7 @@ namespace CubeBasics
             {
                 var fixseed = 160;// 635904859886572548;// DateTime.Now.Ticks;
                 var seed = DateTime.Now.Ticks;
-                var scrambleSequence = cube.Scramble(25, (int)seed); // 160
+                var scrambleSequence = cube.Scramble(25, (int)160); // 160
                 cube.Apply(scrambleSequence);
                 var solver = new SolverClassic(cube);
                 solver.Solve();
