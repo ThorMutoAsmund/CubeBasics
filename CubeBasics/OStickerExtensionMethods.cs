@@ -11,7 +11,9 @@ namespace CubeBasics
     {
         public static Sticker Sticker(this OSticker osticker)
         {
-            return (Sticker)(((int)osticker) / 3);
+            return osticker < OSticker.UF ? 
+                (Sticker)(((int)osticker) / 3) :
+                (Sticker)((((int)osticker) - (int)OSticker.UF) / 2 + (int)CubeBasics.Sticker.eUF);
         }
     }
 }

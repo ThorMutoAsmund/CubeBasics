@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CubeBasics
 {
@@ -20,7 +18,19 @@ namespace CubeBasics
 
         public void Solve()
         {
-            this.Plan.Create();
+            this.Plan.FixCube();
+            this.Cube.Apply(this.Plan);
+        }
+
+        public void SolveCorners()
+        {
+            this.Plan.FixCorners();
+            this.Cube.Apply(this.Plan);
+        }
+
+        public void SolveEdges()
+        {
+            this.Plan.FixEdges();
             this.Cube.Apply(this.Plan);
         }
 
@@ -34,26 +44,84 @@ namespace CubeBasics
         {
             private readonly Turn[] cornerSequence = new Turn[] { Turn.U, Turn.B, Turn.L, Turn.L, Turn.F, Turn.F, Turn.D, Turn.F, Turn.D_, Turn.F, Turn.L_, Turn.L_, Turn.B_ };
 
+            private readonly Turn[] edgeSequence = new Turn[] { Turn.R, Turn.B, Turn.B, Turn.D, Turn.D, Turn.F, Turn.L, Turn.F_, Turn.D, Turn.D, Turn.B, Turn.R_, Turn.B };
+
+            public int NumberOfEdgeSteps { get; private set; }
+
+            public int NumberOfCornerSteps { get; private set; }
+
+            public bool HasParity { get; private set; }
+
             public ClassicPlan(Cube cube) :
                 base(cube)
             {
+                this.NumberOfEdgeSteps = 0;
+                this.NumberOfCornerSteps = 0;
             }
 
-            public void TestLeadIn()
+            public void FixCube()
             {
-                Add(GetLeadIn(OSticker.BLU));
-                Add(cornerSequence);
-                Add(GetLeadIn(OSticker.BLU).Reverse().Select(s => s.Inverse()).ToArray());
+                this.FixCorners();
+                this.HasParity = this.NumberOfCornerSteps % 2 == 1;
+                if (this.HasParity)
+                {
+                    this.ApplyEdgeSequence(OSticker.UB);
+                    this.NumberOfEdgeSteps--;
+                }
+                this.FixEdges();
+                if (this.HasParity)
+                {
+//                    this.ApplyCornerSequence(OSticker.FRU);
+                }
             }
 
-            public void Create()
-            {
-                FixCorners();
-                FixEdges();
-            }
 
             public void FixEdges()
             {
+                Sticker? cycleHead = null;
+                var stickersLeft = new List<Sticker>(StickerExtensionMethods.AllEdgeStickers);
+
+                OSticker? next = null;
+                bool atCycleHead = true;
+
+                do
+                {
+                    if (next.HasValue)
+                    {
+                        if (cycleHead.HasValue || next.Value.Sticker() != Sticker.eUR)
+                        {
+                            ApplyEdgeSequence(next.Value);
+                        }
+
+                        if (
+                            (!cycleHead.HasValue && next.Value.Sticker() == Sticker.eUR) ||
+                            (cycleHead.HasValue && !atCycleHead && next.Value.Sticker() == cycleHead.Value))
+                        {
+                            if (stickersLeft.Count() == 0)
+                            {
+                                break;
+                            }
+
+                            // Find new path start
+                            cycleHead = stickersLeft.First();
+                            atCycleHead = true;
+                            next = (OSticker)(((int)cycleHead.Value - (int)Sticker.eUF) * 2 + (int)OSticker.UF);
+                            continue;
+                        }
+                    }   
+                    else
+                    {
+                        next = OSticker.UR;
+                    }
+
+                    atCycleHead = false;
+
+                    stickersLeft.Remove(next.Value.Sticker());
+
+                    var nextCubie = this.Cube[next.Value.Sticker()];
+                    next = nextCubie.Oriented(next.Value);
+                }
+                while (true);
             }
 
             public void FixCorners()
@@ -70,10 +138,7 @@ namespace CubeBasics
                     {
                         if (cycleHead.HasValue || next.Value.Sticker() != Sticker.cURB)
                         {
-                            var leadIn = GetLeadIn(next.Value);
-                            Add(leadIn);
-                            Add(cornerSequence);
-                            Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
+                            ApplyCornerSequence(next.Value);
                         }
 
                         if (
@@ -105,6 +170,24 @@ namespace CubeBasics
                     next = nextCubie.Oriented(next.Value);
                 }
                 while (true);
+            }
+
+            public void ApplyEdgeSequence(OSticker osticker)
+            {
+                var leadIn = GetLeadIn(osticker);
+                this.NumberOfEdgeSteps++;
+                Add(leadIn);
+                Add(edgeSequence);
+                Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
+            }
+
+            public void ApplyCornerSequence(OSticker osticker)
+            {
+                var leadIn = GetLeadIn(osticker);
+                this.NumberOfCornerSteps++;
+                Add(leadIn);
+                Add(cornerSequence);
+                Add(leadIn.Reverse().Select(s => s.Inverse()).ToArray());
             }
 
             public Turn[] GetLeadIn(OSticker otype)
@@ -148,29 +231,28 @@ namespace CubeBasics
                     case OSticker.RU: return new Turn[] { };
                         throw new InvalidOperationException("Cannot create lead in for buffer edge");
 
-                    case OSticker.UF: return new Turn[] { };
-                    case OSticker.FU: return new Turn[] { };
+                    case OSticker.UF: return new Turn[] { Turn.M, Turn.M, Turn.D, Turn.L, Turn.L };
+                    case OSticker.FU: return new Turn[] { Turn.M ,Turn.D_, Turn.L, Turn.L };
                     case OSticker.UL: return new Turn[] { };
-                    case OSticker.LU: return new Turn[] { };
-                    case OSticker.UB: return new Turn[] { };
-                    case OSticker.BU: return new Turn[] { };
-                    case OSticker.LF: return new Turn[] { };
-                    case OSticker.FL: return new Turn[] { };
-                    case OSticker.LB: return new Turn[] { };
-                    case OSticker.BL: return new Turn[] { };
-                    case OSticker.RF: return new Turn[] { };
-                    case OSticker.FR: return new Turn[] { };
-                    case OSticker.RB: return new Turn[] { };
-                    case OSticker.BR: return new Turn[] { };
-                    case OSticker.DF: return new Turn[] { };
-                    case OSticker.FD: return new Turn[] { };
-                    case OSticker.DL: return new Turn[] { };
-                    case OSticker.LD: return new Turn[] { };
-                    case OSticker.DR: return new Turn[] { };
-                    case OSticker.RD: return new Turn[] { };
-                    case OSticker.DB: return new Turn[] { };
-                    case OSticker.BD: return new Turn[] { };
-
+                    case OSticker.LU: return new Turn[] { Turn.L, Turn.E_, Turn.L };
+                    case OSticker.UB: return new Turn[] { Turn.M_, Turn.M_, Turn.D_, Turn.L, Turn.L };
+                    case OSticker.BU: return new Turn[] { Turn.M_, Turn.D, Turn.L, Turn.L };
+                    case OSticker.LF: return new Turn[] { Turn.E_, Turn.L  };
+                    case OSticker.FL: return new Turn[] { Turn.L_ };
+                    case OSticker.LB: return new Turn[] { Turn.E, Turn.L_ };
+                    case OSticker.BL: return new Turn[] { Turn.L };
+                    case OSticker.RF: return new Turn[] { Turn.E_, Turn. L_ };
+                    case OSticker.FR: return new Turn[] { Turn.E_, Turn.E_, Turn.L };
+                    case OSticker.RB: return new Turn[] { Turn.E, Turn. L };
+                    case OSticker.BR: return new Turn[] { Turn.E, Turn.E, Turn.L_ };
+                    case OSticker.DF: return new Turn[] { Turn.D_, Turn.L, Turn.L };
+                    case OSticker.FD: return new Turn[] { Turn.M, Turn.D, Turn.L, Turn.L };
+                    case OSticker.DL: return new Turn[] { Turn.L, Turn.L };
+                    case OSticker.LD: return new Turn[] { Turn.L_, Turn.E_, Turn.L };
+                    case OSticker.DR: return new Turn[] { Turn.D, Turn.D, Turn.L, Turn.L };
+                    case OSticker.RD: return new Turn[] { Turn.D, Turn.D, Turn.L_, Turn.E_, Turn.L };
+                    case OSticker.DB: return new Turn[] { Turn.D, Turn.L, Turn.L };
+                    case OSticker.BD: return new Turn[] { Turn.M_, Turn.D_, Turn.L, Turn.L };
 
                     default:
                         throw new NotImplementedException(nameof(GetLeadIn));

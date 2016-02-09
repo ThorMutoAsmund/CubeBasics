@@ -209,7 +209,7 @@ namespace CubeBasics
                     this.ColorMapping[_F] = OSticker.FD;
                     break;
                 case Sticker.eDL:
-                    this.ColorMapping[_D] = OSticker.DF;
+                    this.ColorMapping[_D] = OSticker.DL;
                     this.ColorMapping[_L] = OSticker.LD;
                     break;
                 case Sticker.eDR:

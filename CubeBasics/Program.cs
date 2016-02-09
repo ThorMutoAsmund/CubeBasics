@@ -10,7 +10,7 @@ namespace CubeBasics
     {
         static void Main(string[] args)
         {
-            Test1();
+            Test2();
 
             Console.WriteLine("Finished!");
             Console.ReadKey();
@@ -19,8 +19,21 @@ namespace CubeBasics
         static void Test1()
         {
             var cube = new Cube();
-            cube.M().M();
-            Console.WriteLine(cube[Sticker.eUB].Oriented(OSticker.UB));
+            var scrambleSequence = cube.Scramble(25, 160255);
+            cube.Apply(scrambleSequence);
+            var solver = new SolverClassic(cube);
+            solver.SolveEdges();
+            if (!cube.AreEdgesSolved())
+            {
+                Console.WriteLine("Edges not solved!");
+                Console.Write("Seq: ");
+                foreach (var turn in scrambleSequence)
+                {
+                    Console.Write(turn); Console.Write(" ");
+                }
+                Console.WriteLine();
+                solver.DescribePlan();
+            }
         }
 
         static void Test2()
@@ -34,9 +47,9 @@ namespace CubeBasics
                 cube.Apply(scrambleSequence);
                 var solver = new SolverClassic(cube);
                 solver.Solve();
-                if (!cube.AreCornersSolved())
+                if (!cube.IsSolved())
                 {
-                    Console.WriteLine("Corners not solved (seed={0}))!", seed);
+                    Console.WriteLine("Not solved (seed={0}))!", seed);
                     Console.Write("Seq: ");
                     foreach (var turn in scrambleSequence)
                     {

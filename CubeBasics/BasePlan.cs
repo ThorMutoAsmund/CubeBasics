@@ -19,7 +19,7 @@ namespace CubeBasics
 
         public virtual void Describe()
         {
-            Console.WriteLine("PLAN with {0} turns{1}", this.Turns.Count(), this.Turns.Count() % 2 == 1 ? " (parity)" : String.Empty);
+            Console.WriteLine("PLAN with {0} turns: ", this.Turns.Count());
         }
 
         public IEnumerable<Turn> GetTurns()
