@@ -12,8 +12,11 @@ namespace CubeBasics
         {
             this.Cube = cube;
             this.Turns = new List<Turn>();
+            this.Description = new List<string>();
             Clear();
         }
+
+        public List<string> Description { get; private set; }
 
         public int NumberOfCornerSteps { get; protected set; }
 
@@ -34,13 +37,19 @@ namespace CubeBasics
         public void Clear()
         {
             this.Turns.Clear();
+            this.Description.Clear();
             this.NumberOfCornerSteps = 0;
             this.NumberOfEdgeSteps = 0;
         }
 
-        public virtual void DescribePlan()
+        public virtual void Describe()
         {
-            Console.WriteLine("Solve with {0} turns: ", this.Turns.Count());
+            Console.Write("Desc: ");
+            foreach (var s in this.Description)
+            {
+                Console.Write(s + " - ");
+            }
+            Console.WriteLine();
         }
 
         public IEnumerable<Turn> GetTurns()
@@ -52,14 +61,22 @@ namespace CubeBasics
         {
             throw new NotImplementedException(nameof(Solve));
         }
-        protected BaseSolver Add(Turn[] turns)
+        protected BaseSolver Add(Turn[] turns, string description = null)
         {
+            if (description != null)
+            {
+                this.Description.Add(description);
+            }
             this.Turns.AddRange(turns);
             return this;
         }
 
-        protected BaseSolver Add(Turn turn)
+        protected BaseSolver Add(Turn turn, string description = null)
         {
+            if (description != null)
+            {
+                this.Description.Add(description);
+            }
             this.Turns.Add(turn);
             return this;
         }

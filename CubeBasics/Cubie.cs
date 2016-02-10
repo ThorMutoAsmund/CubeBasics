@@ -43,7 +43,7 @@ namespace CubeBasics
         private const int _DF = _D *64 + _F * 8 + _R;
         private const int _DL = _D *64 + _L * 8 + _F;
         private const int _DR = _D *64 + _R * 8 + _B;
-        private const int _DB = _D *64 + _B * 8 + _L;
+        private const int _DB = _D *64 + _B * 8 + _L; // 98
 
         // Left hand rule
         private static int[][] XGroup = new int[6][]
@@ -132,91 +132,91 @@ namespace CubeBasics
             this.ColorMapping = new OSticker[6];
             switch (type)
             {
-                case Sticker.cULF:
+                case Sticker.sULF:
                     this.ColorMapping[_U] = OSticker.ULF;
                     this.ColorMapping[_L] = OSticker.LFU;
                     this.ColorMapping[_F] = OSticker.FUL;
                     break;
-                case Sticker.cUFR:
+                case Sticker.sUFR:
                     this.ColorMapping[_U] = OSticker.UFR;
                     this.ColorMapping[_F] = OSticker.FRU;
                     this.ColorMapping[_R] = OSticker.RUF;
                     break;
-                case Sticker.cUBL:
+                case Sticker.sUBL:
                     this.ColorMapping[_U] = OSticker.UBL;
                     this.ColorMapping[_B] = OSticker.BLU;
                     this.ColorMapping[_L] = OSticker.LUB;
                     break;
-                case Sticker.cURB:
+                case Sticker.sURB:
                     this.ColorMapping[_U] = OSticker.URB;
                     this.ColorMapping[_R] = OSticker.RBU;
                     this.ColorMapping[_B] = OSticker.BUR;
                     break;
-                case Sticker.cDFL:
+                case Sticker.sDFL:
                     this.ColorMapping[_D] = OSticker.DFL;
                     this.ColorMapping[_F] = OSticker.FLD;
                     this.ColorMapping[_L] = OSticker.LDF;
                     break;
-                case Sticker.cDRF:
+                case Sticker.sDRF:
                     this.ColorMapping[_D] = OSticker.DRF;
                     this.ColorMapping[_R] = OSticker.RFD;
                     this.ColorMapping[_F] = OSticker.FDR;
                     break;
-                case Sticker.cDLB:
+                case Sticker.sDLB:
                     this.ColorMapping[_D] = OSticker.DLB;
                     this.ColorMapping[_L] = OSticker.LBD;
                     this.ColorMapping[_B] = OSticker.BDL;
                     break;
-                case Sticker.cDBR:
+                case Sticker.sDBR:
                     this.ColorMapping[_D] = OSticker.DBR;
                     this.ColorMapping[_B] = OSticker.BRD;
                     this.ColorMapping[_R] = OSticker.RDB;
                     break;
-                case Sticker.eUF:
+                case Sticker.sUF:
                     this.ColorMapping[_U] = OSticker.UF;
                     this.ColorMapping[_F] = OSticker.FU;
                     break;
-                case Sticker.eUL:
+                case Sticker.sUL:
                     this.ColorMapping[_U] = OSticker.UL;
                     this.ColorMapping[_L] = OSticker.LU;
                     break;
-                case Sticker.eUR:
+                case Sticker.sUR:
                     this.ColorMapping[_U] = OSticker.UR;
                     this.ColorMapping[_R] = OSticker.RU;
                     break;
-                case Sticker.eUB:
+                case Sticker.sUB:
                     this.ColorMapping[_U] = OSticker.UB;
                     this.ColorMapping[_B] = OSticker.BU;
                     break;
-                case Sticker.eLF:
+                case Sticker.sLF:
                     this.ColorMapping[_L] = OSticker.LF;
                     this.ColorMapping[_F] = OSticker.FL;
                     break;
-                case Sticker.eLB:
+                case Sticker.sLB:
                     this.ColorMapping[_L] = OSticker.LB;
                     this.ColorMapping[_B] = OSticker.BL;
                     break;
-                case Sticker.eRF:
+                case Sticker.sRF:
                     this.ColorMapping[_R] = OSticker.RF;
                     this.ColorMapping[_F] = OSticker.FR;
                     break;
-                case Sticker.eRB:
+                case Sticker.sRB:
                     this.ColorMapping[_R] = OSticker.RB;
                     this.ColorMapping[_B] = OSticker.BR;
                     break;
-                case Sticker.eDF:
+                case Sticker.sDF:
                     this.ColorMapping[_D] = OSticker.DF;
                     this.ColorMapping[_F] = OSticker.FD;
                     break;
-                case Sticker.eDL:
+                case Sticker.sDL:
                     this.ColorMapping[_D] = OSticker.DL;
                     this.ColorMapping[_L] = OSticker.LD;
                     break;
-                case Sticker.eDR:
+                case Sticker.sDR:
                     this.ColorMapping[_D] = OSticker.DR;
                     this.ColorMapping[_R] = OSticker.RD;
                     break;
-                case Sticker.eDB:
+                case Sticker.sDB:
                     this.ColorMapping[_D] = OSticker.DB;
                     this.ColorMapping[_B] = OSticker.BD;
                     break;
@@ -295,42 +295,42 @@ namespace CubeBasics
             OSticker osticker;
             switch (location)
             {
-                case Sticker.cULF:
-                case Sticker.cUFR:
-                case Sticker.cUBL:
-                case Sticker.cURB:
-                case Sticker.eUB:
-                case Sticker.eUF:
-                case Sticker.eUL:
-                case Sticker.eUR:
+                case Sticker.sULF:
+                case Sticker.sUFR:
+                case Sticker.sUBL:
+                case Sticker.sURB:
+                case Sticker.sUB:
+                case Sticker.sUF:
+                case Sticker.sUL:
+                case Sticker.sUR:
                     {
                         var u = this.Orientation / 64;
                         osticker = this.ColorMapping[u];
                         break;
                     }
-                case Sticker.cDFL:
-                case Sticker.cDRF:
-                case Sticker.cDLB:
-                case Sticker.cDBR:
-                case Sticker.eDB:
-                case Sticker.eDF:
-                case Sticker.eDL:
-                case Sticker.eDR:
+                case Sticker.sDFL:
+                case Sticker.sDRF:
+                case Sticker.sDLB:
+                case Sticker.sDBR:
+                case Sticker.sDB:
+                case Sticker.sDF:
+                case Sticker.sDL:
+                case Sticker.sDR:
                     {
                         var u = this.Orientation / 64;
                         var d = (u / 2) * 2 + (1 - (u % 2));
                         osticker = this.ColorMapping[d];
                         break;
                     }
-                case Sticker.eLB:
-                case Sticker.eLF:
+                case Sticker.sLB:
+                case Sticker.sLF:
                     {
                         var l = this.Orientation % 8;
                         osticker = this.ColorMapping[l];
                         break;
                     }
-                case Sticker.eRB:
-                case Sticker.eRF:
+                case Sticker.sRB:
+                case Sticker.sRF:
                     {
                         var l = this.Orientation % 8;
                         var r = (l / 2)*2 + (1 - (l % 2));

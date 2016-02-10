@@ -65,9 +65,8 @@ namespace CubeBasics
                 case OSticker.BRD: return new Turn[] { Turn.D, Turn.D, Turn.F };
                 case OSticker.RDB: return new Turn[] { Turn.D, Turn.D, Turn.L_, Turn.F_, Turn.L_ };
 
-                case OSticker.UR: return new Turn[] { };
+                case OSticker.UR:
                 case OSticker.RU:
-                    return new Turn[] { };
                     throw new InvalidOperationException("Cannot create lead in for buffer edge");
 
                 case OSticker.UF: return new Turn[] { Turn.M, Turn.M, Turn.D, Turn.L, Turn.L };

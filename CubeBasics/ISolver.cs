@@ -9,7 +9,7 @@ namespace CubeBasics
     interface ISolver
     {
         void Solve();
-        void DescribePlan();
+        void Describe();
         int TotalStepsWithoutParity { get; }
     }
 }

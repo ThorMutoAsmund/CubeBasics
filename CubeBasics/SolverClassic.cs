@@ -27,41 +27,41 @@ namespace CubeBasics
         {
             this.Clear();
 
-            Fix(StickerExtensionMethods.AllEdgeStickers, Sticker.eUR);
+            Cycle3System.Fix(this.Cube, StickerExtensionMethods.AllEdgeStickers, Sticker.sUR, this.AddStickerSequence);
 
             this.HasParity = this.NumberOfEdgeSteps % 2 == 1;
 
             if (this.HasParity)
             {
-                this.ApplySequence(OSticker.UL);
+                this.AddStickerSequence(OSticker.UL);
             }
 
-            Fix(StickerExtensionMethods.AllCornerStickers, Sticker.cURB);
+            Cycle3System.Fix(this.Cube, StickerExtensionMethods.AllCornerStickers, Sticker.sURB, this.AddStickerSequence);
 
             if (this.HasParity)
             {
-                this.ApplySequence(OSticker.UB);
-                this.ApplySequence(OSticker.UL);
+                this.AddStickerSequence(OSticker.UB);
+                this.AddStickerSequence(OSticker.UL);
             }
-
-            this.Cube.Apply(this);
-        }
-
-        public void SolveCorners()
-        {
-            Fix(StickerExtensionMethods.AllCornerStickers, Sticker.cURB);
 
             this.Cube.Apply(this);
         }
 
         public void SolveEdges()
         {
-            Fix(StickerExtensionMethods.AllEdgeStickers, Sticker.eUR);
+            Cycle3System.Fix(this.Cube, StickerExtensionMethods.AllEdgeStickers, Sticker.sUR, this.AddStickerSequence);
 
             this.Cube.Apply(this);
         }
 
-        private void ApplySequence(OSticker osticker)
+        public void SolveCorners()
+        {
+            Cycle3System.Fix(this.Cube, StickerExtensionMethods.AllCornerStickers, Sticker.sURB, this.AddStickerSequence);
+
+            this.Cube.Apply(this);
+        }
+
+        private void AddStickerSequence(OSticker osticker)
         {
             if (osticker.Sticker().IsEdge())
             {
@@ -79,72 +79,6 @@ namespace CubeBasics
                 Add(ClassicSequences.CornerSequence);
                 Add(leadIn.Inverse());
             }
-        }
-        private void Fix(Sticker[] allStickers, Sticker bufferPosition)
-        {
-            Sticker? cycleHead = null;
-            var stickersLeft = new List<Sticker>(allStickers);
-
-            OSticker? next = null;
-            bool atCycleHead = true;
-
-            do
-            {
-                if (next.HasValue)
-                {
-                    if (cycleHead.HasValue || next.Value.Sticker() != bufferPosition)
-                    {
-                        ApplySequence(next.Value);
-                    }
-
-                    if (
-                        (!cycleHead.HasValue && next.Value.Sticker() == bufferPosition) ||
-                        (cycleHead.HasValue && !atCycleHead && next.Value.Sticker() == cycleHead.Value))
-                    {
-                        if (stickersLeft.Count() == 0)
-                        {
-                            break;
-                        }
-
-                        // Find new path start
-                        cycleHead = null;
-                        do
-                        {
-                            if (cycleHead.HasValue)
-                            {
-                                stickersLeft.Remove(next.Value.Sticker());
-                                if (stickersLeft.Count() == 0)
-                                {
-                                    break;
-                                }
-                            }
-                            cycleHead = stickersLeft.First();
-                            atCycleHead = true;
-                            next = cycleHead.Value.PrimarySticker();
-                        }
-                        while (this.Cube[next.Value.Sticker()].Type == cycleHead && this.Cube[next.Value.Sticker()].IsCorrect);
-
-                        if (stickersLeft.Count() == 0)
-                        {
-                            break;
-                        }
-
-                        continue;
-                    }
-                }   
-                else
-                {
-                    next = bufferPosition.PrimarySticker();
-                }
-
-                atCycleHead = false;
-
-                stickersLeft.Remove(next.Value.Sticker());
-
-                var nextCubie = this.Cube[next.Value.Sticker()];
-                next = nextCubie.Oriented(next.Value);
-            }
-            while (true);
         }
     }
 }

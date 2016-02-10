@@ -151,9 +151,9 @@ namespace CubeBasics
         {
             Do(Axis.X, !inverse,
                 new Sticker[3][] {
-                    new Sticker[] { mL },
-                    new Sticker[] { cDLB, cDFL, cULF, cUBL },
-                    new Sticker[] { eLB, eDL, eLF, eUL }
+                    new Sticker[] { sL },
+                    new Sticker[] { sDLB, sDFL, sULF, sUBL },
+                    new Sticker[] { sLB, sDL, sLF, sUL }
                 });
             return this;
         }
@@ -163,9 +163,9 @@ namespace CubeBasics
         {
             Do(Axis.X, inverse,
                 new Sticker[3][] {
-                    new Sticker[] { mR },
-                    new Sticker[] { cUFR, cURB, cDBR, cDRF},
-                    new Sticker[] { eUR, eRB, eDR, eRF }
+                    new Sticker[] { sR },
+                    new Sticker[] { sUFR, sURB, sDBR, sDRF},
+                    new Sticker[] { sUR, sRB, sDR, sRF }
                 });
             return this;
         }
@@ -175,9 +175,9 @@ namespace CubeBasics
         {
             Do(Axis.Y, inverse,
                 new Sticker[3][] {
-                    new Sticker[] { mU },
-                    new Sticker[] { cULF, cUBL, cURB, cUFR },
-                    new Sticker[] { eUL, eUB, eUR, eUF }
+                    new Sticker[] { sU },
+                    new Sticker[] { sULF, sUBL, sURB, sUFR },
+                    new Sticker[] { sUL, sUB, sUR, sUF }
                 });
             return this;
         }
@@ -187,9 +187,9 @@ namespace CubeBasics
         {
             Do(Axis.Y, !inverse,
                 new Sticker[3][] {
-                    new Sticker[] { mD },
-                    new Sticker[] { cDFL, cDLB, cDBR, cDRF },
-                    new Sticker[] { eDL, eDB, eDR, eDF }
+                    new Sticker[] { sD },
+                    new Sticker[] { sDFL, sDLB, sDBR, sDRF },
+                    new Sticker[] { sDL, sDB, sDR, sDF }
                 });
             return this;
         }
@@ -199,9 +199,9 @@ namespace CubeBasics
         {
             Do(Axis.Z, inverse,
                 new Sticker[3][] {
-                    new Sticker[] { mB },
-                    new Sticker[] { cUBL, cDLB, cDBR, cURB },
-                    new Sticker[] { eLB, eDB, eRB, eUB }
+                    new Sticker[] { sB },
+                    new Sticker[] { sUBL, sDLB, sDBR, sURB },
+                    new Sticker[] { sLB, sDB, sRB, sUB }
                 });
             return this;
         }
@@ -211,9 +211,9 @@ namespace CubeBasics
         {
             Do(Axis.Z, !inverse,
                 new Sticker[3][] {
-                    new Sticker[] { mF },
-                    new Sticker[] { cULF, cDFL, cDRF, cUFR },
-                    new Sticker[] { eUF, eLF, eDF, eRF }
+                    new Sticker[] { sF },
+                    new Sticker[] { sULF, sDFL, sDRF, sUFR },
+                    new Sticker[] { sUF, sLF, sDF, sRF }
                 });
             return this;
         }
@@ -223,8 +223,8 @@ namespace CubeBasics
         {
             Do(Axis.X, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { mU, mB, mD, mF },
-                    new Sticker[] { eUF, eUB, eDB, eDF }
+                    new Sticker[] { sU, sB, sD, sF },
+                    new Sticker[] { sUF, sUB, sDB, sDF }
                 });
             return this;
         }
@@ -234,8 +234,8 @@ namespace CubeBasics
         {
             Do(Axis.Y, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { mL, mB, mR, mF },
-                    new Sticker[] { eLF, eLB, eRB, eRF }
+                    new Sticker[] { sL, sB, sR, sF },
+                    new Sticker[] { sLF, sLB, sRB, sRF }
                 });
             return this;
         }
@@ -245,8 +245,8 @@ namespace CubeBasics
         {
             Do(Axis.Z, !inverse,
                 new Sticker[2][] {
-                    new Sticker[] { mU, mL, mD, mR },
-                    new Sticker[] { eUL, eDL, eDR, eUR }
+                    new Sticker[] { sU, sL, sD, sR },
+                    new Sticker[] { sUL, sDL, sDR, sUR }
                 });
             return this;
         }

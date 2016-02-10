@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePlan.cs" />
+    <Compile Include="BaseSolver.cs" />
+    <Compile Include="M2Sequences.cs" />
     <Compile Include="ClassicSequences.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="Cubie.cs" />
+    <Compile Include="Cycle3System.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ISolver.cs" />
     <Compile Include="SolverM2.cs" />
